@@ -36,6 +36,7 @@ public class BankController {
 	private AccountRepository service;
 	
 	
+
 	@PostMapping("/upload")
 	public String uploadData(@RequestParam("file") MultipartFile file) throws Exception {
 		List<AccountDetails> accountList = new ArrayList<>();
@@ -63,12 +64,16 @@ public class BankController {
 		return "Upload feito com sucesso !!!";
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/gastosMes")
 	public double gastosMes() {
 		return service.amount();
 		
 	}
 	
+=======
+
+>>>>>>> b341688f97271bcf55ef718ebcd9573ea45b67f7
 	@GetMapping("/{choosenDate}")
 	public double choosedDataAmount(@PathVariable Date choosenDate) throws Exception {
 	    List<AccountDetails> account = service.findAll();
