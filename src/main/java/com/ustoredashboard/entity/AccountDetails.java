@@ -1,9 +1,19 @@
 package com.ustoredashboard.entity;
 
+
+import java.sql.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table (name = "account_details")
+
 
 public class AccountDetails {
 	@Id
@@ -16,17 +26,18 @@ public class AccountDetails {
 	private String ProductCode;
 	@Column(name = "line_item_type")
 	private String LineItemType;
-	
 	@Column(name = "bill_type")
 	private String BillType;
 	@Column(name = "billing_entity")
 	private String BillingEntity;
 	@Column(name = "billing_period_start_date")
 	private String BillingPeriodStartDate;
-	
+	@Column(name = "billing_period_start_time")
+	private String BillingPeriodStartTime;
 	@Column(name = "billing_period_end_date")
 	private String BillingPeriodEndDate;
-	
+	@Column(name = "billing_period_end_time")
+	private String BillingPeriodEndTime;
 	@Column(name = "lineitem_unblended_rate")
 	private String UnblendedRate;
 	@Column(name = "lineitem_unblended_cost")
@@ -81,6 +92,28 @@ public class AccountDetails {
 		return (String) BillingPeriodStartDate;
 	}
 	
+	public String getBillingPeriodStartTime() {
+		return BillingPeriodStartTime;
+	}
+
+	public void setBillingPeriodStartTime(String billingPeriodStartTime) {
+		String stringDate = billingPeriodStartTime;
+		String [] parts = stringDate.split("[TZ]");
+		String part2 = parts[1]; // depois do T removendo o Z no fim
+		this.BillingPeriodStartTime = part2;
+	}
+	
+	public String getBillingPeriodEndTime() {
+		return BillingPeriodEndTime;
+	}
+
+	public void setBillingPeriodEndTime(String billingPeriodEndTime) {
+		String stringDate = billingPeriodEndTime;
+		String [] parts = stringDate.split("[TZ]");
+		String part2 = parts[1]; // depois do T removendo o Z no fim
+		this.BillingPeriodEndTime = part2;
+	}
+
 	public String getBillingPeriodEndDate() {
 		return BillingPeriodEndDate;
 	}
@@ -115,5 +148,11 @@ public class AccountDetails {
 
 	public void setBlendedCost(String blendedCost) { this.BlendedCost = blendedCost;}
 
+	public String getBillType() {
+		return BillType;
+	}
+
+	
+	
 }
 	

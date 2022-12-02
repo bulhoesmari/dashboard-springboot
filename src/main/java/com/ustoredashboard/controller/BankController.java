@@ -1,5 +1,6 @@
 package com.ustoredashboard.controller;
 
+import java.io.InputStream;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -7,26 +8,33 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.univocity.parsers.csv.CsvParser;
+import com.univocity.parsers.csv.CsvParserSettings;
 import com.ustoredashboard.entity.AccountDetails;
 import com.ustoredashboard.entity.AccountRepository;
+import com.univocity.parsers.common.record.Record;
 
 
+@RestController
+@CrossOrigin
+@RequestMapping(value="/api")
 
 public class BankController {
-
+	
 	@Autowired
 	private AccountRepository service;
 	
-	@GetMapping("/gastosMes")
-	public double gastosMes() {
-		return service.amount();
-		
-	}
 	
 	@PostMapping("/upload")
 	public String uploadData(@RequestParam("file") MultipartFile file) throws Exception {
@@ -55,6 +63,12 @@ public class BankController {
 		return "Upload feito com sucesso !!!";
 	}
 	
+	@GetMapping("/gastosMes")
+	public double gastosMes() {
+		return service.amount();
+		
+	}
+	
 	@GetMapping("/{choosenDate}")
 	public double choosedDataAmount(@PathVariable Date choosenDate) throws Exception {
 	    List<AccountDetails> account = service.findAll();
@@ -71,6 +85,12 @@ public class BankController {
 	    DecimalFormat df = new DecimalFormat("#.##");
         df.format(amount);
 	    return amount;	
-		
 	}
+	
+	
 }
+	
+	
+	
+	
+	
