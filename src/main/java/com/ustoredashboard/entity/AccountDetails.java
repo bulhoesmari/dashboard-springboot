@@ -16,4 +16,14 @@ public class AccountDetails {
 	private String ProductCode;
 	@Column(name = "line_item_type")
 	private String LineItemType;
+	
+	@Column(name = "bill_type")
+	private String BillType;
+	@Column(name = "billing_entity")
+	private String BillingEntity;
+	@Column(name = "billing_period_start_date")
+	private String BillingPeriodStartDate;
+	
+	@Column(name = "billing_period_end_date")
+	private String BillingPeriodEndDate;
 }
