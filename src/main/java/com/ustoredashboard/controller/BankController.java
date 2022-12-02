@@ -28,6 +28,35 @@ public class BankController {
 		
 	}
 	
+
+	@PostMapping("/upload")
+	public String uploadData(@RequestParam("file") MultipartFile file) throws Exception {
+		List<AccountDetails> accountList = new ArrayList<>();
+		InputStream inputStream = file.getInputStream();
+		CsvParserSettings setting = new CsvParserSettings();
+		setting.setHeaderExtractionEnabled(true);
+		CsvParser parser = new CsvParser(setting);
+		List<Record>parseAllRecords = parser.parseAllRecords(inputStream);
+		parseAllRecords.forEach(record -> {
+			AccountDetails account = new AccountDetails();
+			account.setProductName(record.getString("product/ProductName"));
+			account.setProductCode(record.getString("lineItem/ProductCode"));
+			account.setLineItemType(record.getString("lineItem/LineItemType"));
+			account.setBillType(record.getString("bill/BillType"));
+			account.setBillingEntity(record.getString("bill/BillingEntity"));
+			account.setBillingPeriodStartDate(record.getString("bill/BillingPeriodStartDate"));
+			account.setBillingPeriodEndDate(record.getString("bill/BillingPeriodEndDate"));
+			account.setUnblendedRate(record.getString("lineItem/UnblendedRate"));
+			account.setUnblendedCost(record.getString("lineItem/UnblendedCost"));
+			account.setBlendedRate(record.getString("lineItem/BlendedRate"));
+			account.setBlendedCost(record.getString("lineItem/BlendedCost"));
+			accountList.add(account);
+		});
+		service.saveAll(accountList);
+		return "Upload feito com sucesso !!!";
+	}
+	
+
 	@GetMapping("/{choosenDate}")
 	public double choosedDataAmount(@PathVariable Date choosenDate) throws Exception {
 	    List<AccountDetails> account = service.findAll();
